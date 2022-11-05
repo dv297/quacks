@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import path from 'path';
 
 class IndexController {
   public index = (req: Request, res: Response, next: NextFunction): void => {
     try {
-      res.sendStatus(200);
+      res.sendFile(path.join(__dirname, '/index.html'));
     } catch (error) {
       next(error);
     }
