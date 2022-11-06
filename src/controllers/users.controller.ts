@@ -16,6 +16,10 @@ class UsersController {
     }
   };
 
+  // public getMockUsers = () => {
+  //   return this.userService.findAllUser();
+  // };
+
   public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userId = Number(req.params.id);
