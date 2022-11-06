@@ -31,7 +31,7 @@ class GamesController {
   public createGame = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const newGameId = this.generateRandomGameIdString(7);
-        const gameData: CreateGameDto = { gameId: newGameId };
+        const gameData: CreateGameDto = { gameId: newGameId, players: {} };
         const createGameData: Game = await this.gameService.createGame(gameData);
 
         createGameChannel(newGameId);        

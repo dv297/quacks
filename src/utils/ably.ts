@@ -18,16 +18,13 @@ function createGameChannel(gameId) {
 
     switch(message.name) {
       case 'addPlayer':
-        addPlayer(message);
+        addPlayer(gameId, message);
         break;
       case 'deletePlayer':
-        deletePlayer(message);
+        deletePlayer(gameId, message);
         break;
       case 'updatePlayerName':
-        updatePlayerName(message);
-        break;
-      case 'playerList':
-        channel.publish('broadcastPlayerList', PlayerService.playerList());
+        updatePlayerName(gameId, message);
         break;
       default:
         const unknownMessage = `Message type not found: ${message.name}`;
@@ -35,33 +32,33 @@ function createGameChannel(gameId) {
     }
   });
 
-  function addPlayer(message) {
+  function addPlayer(gameId, message) {
     const user = message.data?.user;
     try {
-      PlayerService.addPlayer(user); 
-      channel.publish('broadcastPlayerList', PlayerService.playerList());
+      PlayerService.addPlayer(gameId, user); 
+      channel.publish('broadcastPlayerList', PlayerService.playerList(gameId));
     } catch (error) {
       logger.error(error);
-      channel.publish(error.name, error.message); 
+      channel.publish('error', error.message); 
     }
   }
   
-  function deletePlayer(message) {
+  function deletePlayer(gameId, message) {
     const user = message.data?.user;
     try {
-      PlayerService.deletePlayer(user); 
-      channel.publish('broadcastPlayerList', PlayerService.playerList());
+      PlayerService.deletePlayer(gameId, user); 
+      channel.publish('broadcastPlayerList', PlayerService.playerList(gameId));
     } catch (error) {
       logger.error(error);
       channel.publish(error.name, error.message); 
     }
   }
 
-  function updatePlayerName(message) {
+  function updatePlayerName(gameId, message) {
     const user = message.data?.user;
     try {
-      PlayerService.updatePlayerName(user);
-      channel.publish('broadcastPlayerList', PlayerService.playerList());
+      PlayerService.updatePlayerName(gameId, user);
+      channel.publish('broadcastPlayerList', PlayerService.playerList(gameId));
     } catch (error) {
       logger.error(error);
       channel.publish(error.name, error.message); 
