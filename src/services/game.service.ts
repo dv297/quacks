@@ -20,7 +20,7 @@ class GameService {
   }
 
   public async createGame(gameData: CreateGameDto): Promise<Game> {
-    if (isEmpty(gameData)) throw new HttpException(400, "gameData is empty");
+    if (isEmpty(gameData)) throw new HttpException(400, 'gameData is empty');
 
     const findGame: Game = this.games.gameId;
     if (findGame) throw new HttpException(409, `This game ${gameData.gameId} already exists`);

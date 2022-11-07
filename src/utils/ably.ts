@@ -16,7 +16,7 @@ function createGameChannel(gameId) {
   channel.subscribe(message => {
     logger.info(gameId + message);
 
-    switch(message.name) {
+    switch (message.name) {
       case 'addPlayer':
         addPlayer(gameId, message);
         break;
@@ -35,22 +35,22 @@ function createGameChannel(gameId) {
   function addPlayer(gameId, message) {
     const user = message.data?.user;
     try {
-      PlayerService.addPlayer(gameId, user); 
+      PlayerService.addPlayer(gameId, user);
       channel.publish('broadcastPlayerList', PlayerService.playerList(gameId));
     } catch (error) {
       logger.error(error);
-      channel.publish('error', error.message); 
+      channel.publish('error', error.message);
     }
   }
-  
+
   function deletePlayer(gameId, message) {
     const user = message.data?.user;
     try {
-      PlayerService.deletePlayer(gameId, user); 
+      PlayerService.deletePlayer(gameId, user);
       channel.publish('broadcastPlayerList', PlayerService.playerList(gameId));
     } catch (error) {
       logger.error(error);
-      channel.publish(error.name, error.message); 
+      channel.publish(error.name, error.message);
     }
   }
 
@@ -61,7 +61,7 @@ function createGameChannel(gameId) {
       channel.publish('broadcastPlayerList', PlayerService.playerList(gameId));
     } catch (error) {
       logger.error(error);
-      channel.publish(error.name, error.message); 
+      channel.publish(error.name, error.message);
     }
   }
 }

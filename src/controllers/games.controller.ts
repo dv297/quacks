@@ -30,15 +30,15 @@ class GamesController {
 
   public createGame = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const newGameId = this.generateRandomGameIdString(7);
-        const gameData: CreateGameDto = { gameId: newGameId, players: {} };
-        const createGameData: Game = await this.gameService.createGame(gameData);
+      const newGameId = this.generateRandomGameIdString(7);
+      const gameData: CreateGameDto = { gameId: newGameId, players: {} };
+      const createGameData: Game = await this.gameService.createGame(gameData);
 
-        createGameChannel(newGameId);        
-        res.status(201).json({ data: createGameData, message: 'created' });
-      } catch (error) {
-        next(error);
-      }
+      createGameChannel(newGameId);
+      res.status(201).json({ data: createGameData, message: 'created' });
+    } catch (error) {
+      next(error);
+    }
   };
 
   public deleteGame = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -54,12 +54,12 @@ class GamesController {
 
   private generateRandomGameIdString(gameIdLength) {
     let result = '';
-  
+
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < gameIdLength; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-  
+
     return result;
   }
 }
