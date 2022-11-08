@@ -11,7 +11,6 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
-import { initializeAbly } from '@utils/ably';
 
 class App {
   public app: express.Application;
@@ -35,7 +34,12 @@ class App {
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
       logger.info(`=================================`);
-      initializeAbly();
+
+      console.log(process.env.NODE_ENV);
+      if (process.env.NODE_ENV !== 'test') {
+        const { initializeAbly } = require('./utils/ably');
+        initializeAbly();
+      }
     });
   }
 

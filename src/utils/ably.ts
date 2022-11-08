@@ -1,9 +1,6 @@
-import { ABLY_KEY } from '@config';
-import Ably from 'ably';
 import { logger } from '@utils/logger';
 import PlayerService from '@services/players.service';
-
-const client = new Ably.Realtime(ABLY_KEY);
+import client from './ablyClient';
 
 function initializeAbly() {
   client.connection.on('connected', function () {
